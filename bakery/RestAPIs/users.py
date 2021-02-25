@@ -1,14 +1,14 @@
 from rest_framework.response import Response
-from rest_framework.views import APIView
-
+# from rest_framework.views import APIView
 from ..Serializers import UserSerializer, UserDetailSerializer
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 
+
 class UserView(generics.GenericAPIView):
-    authentication_classes = [SessionAuthentication,]
+    authentication_classes = [SessionAuthentication, ]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -18,12 +18,12 @@ class UserView(generics.GenericAPIView):
             data = []
             for user in users:
                 data.append(
-                    {'id': user.id, 'name': user.name, 'number': user.number, 'email': user.email})
+                    {'id': user.id, 'name': user.get_full_name, 'mobile': user.mobile, 'email': user.email})
             return Response({'data': data})
 
         else:
             user = generics.get_object_or_404(User, id=request.user.id)
-            data = {'id': user.id, 'name': user.name, 'number': user.number, 'email': user.email}
+            data = {'id': user.id, 'name': user.get_full_name, 'mobile': user.mobile, 'email': user.email}
             return Response(data)
         return Response({'result': 'You are not authorized to see the result.'}, status=401)
 
@@ -43,7 +43,7 @@ class UserView(generics.GenericAPIView):
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes = [SessionAuthentication, TokenAuthentication ]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     queryset = User.objects.all()
     serializer_class = UserDetailSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -51,7 +51,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get(self, request, id=None):
         user = self.queryset.filter(id=id).last()
         if request.user.is_superuser or request.user == user:
-            data = {'id': user.id, 'name': user.name, 'number': user.number, 'email': user.email}
+            data = {'id': user.id, 'name': user.get_full_name, 'mobile': user.mobile, 'email': user.email}
             return Response(data)
         return Response({'result': 'You are not authorized to see the result.'}, status=401)
 

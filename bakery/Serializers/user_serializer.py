@@ -1,6 +1,5 @@
-from django.contrib.auth.models import User
-from rest_framework import serializers, exceptions
-
+from rest_framework import serializers
+from bakery_management.bakery.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,11 +7,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'number', 'email', 'password', 'confirm_password')
+        fields = ('username', 'first_name', 'last_name', 'mobile', 'email', 'password', 'confirm_password')
         extra_kwargs = {'password': {'write_only': True}}
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('name', 'number', 'email')
+        fields = ('name', 'mobile', 'email')
