@@ -1,0 +1,16 @@
+venv/
+venv/*
+env/
+env/*
+__pycache__/
+__pycache__/*
+.idea/
+.idea/*
+/staticfiles/
+/staticfiles/*
+/static/
+/static/*
+# Logs
+logs
+*.log
+db.sqlite3
