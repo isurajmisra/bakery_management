@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.response import Response
 from ..Serializers import OrderSerializer, OrderHistorySerializer
 from ..utiliy import get_total_price
@@ -6,6 +7,7 @@ from ..utiliy import get_total_price
 
 class OrderCreate(generics.CreateAPIView):
     "Any user can create the order."
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -36,6 +38,7 @@ class OrderCreate(generics.CreateAPIView):
 
 class OrderHistory(generics.ListAPIView):
     "Users can see their order history"
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     serializer_class = OrderHistorySerializer
     permission_classes = (permissions.IsAuthenticated,)
 

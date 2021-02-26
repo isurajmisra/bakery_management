@@ -1,4 +1,6 @@
 from rest_framework import generics, permissions
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+
 from ..models import Product, Order
 from ..Serializers import ProductSerializer
 
@@ -7,6 +9,7 @@ class ProductView(generics.ListAPIView):
     '''
     Users can view all products.
     '''
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -16,6 +19,7 @@ class ProductCreate(generics.ListCreateAPIView):
     '''
     Admin can add new products.
     '''
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = (permissions.IsAdminUser,)
@@ -25,6 +29,7 @@ class ProductUpdate(generics.RetrieveUpdateDestroyAPIView):
     '''
     Admin can update any product details.
     '''
+    authentication_classes = [SessionAuthentication,]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = (permissions.IsAdminUser,)

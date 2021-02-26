@@ -1,12 +1,13 @@
 from ..Serializers import UserSerializer, UserDetailSerializer
 from ..models import User
-from rest_framework import generics, viewsets
+from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 
 
 
 class UserCreate(generics.CreateAPIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.AllowAny,)
